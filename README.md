@@ -53,3 +53,11 @@ module "spinnaker" {
 This terraform module will give you a shell script to get kubeconfig file of an EKS cluster. You will find the [update-kubeconfig.sh] script in the `script` directory of this repository. You can get the kubeconfig file with credentials to access your EKS cluster using this script. For more detail of how to use this, please refer to the help message of the script.
 
 [Important] Before you run this script you must configure your local environment to have proper permission to get the credentials from EKS cluster on your AWS account whatever you are using aws-cli or aws-vault.
+
+###Code Updates
+To update code in Terraform Registry
+1. Clone GitHub repo.
+2. Perform and commit changes.
+3. Add a new tag: git tag -a v0.1.1 -m "Version v0.1.1"
+4. Push your tag: git push origin v0.1.1
+
