@@ -25,3 +25,18 @@ resource "helm_release" "spinnaker" {
     aws_eks_node_group.ng,
   ]
 }
+
+resource "helm_release" "opencloudcx" {
+  name             = "opencloudcx"
+  chart            = "opencloudcx"
+  namespace        = "opencloudcx"
+  repository       = var.helm_repo_opencloudcx
+  timeout          = var.helm_timeout
+  create_namespace = true
+  reset_values     = false
+
+  depends_on = [
+    aws_eks_cluster.eks,
+    aws_eks_node_group.ng,
+  ]
+}
