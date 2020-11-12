@@ -87,7 +87,7 @@ variable "helm_repo_opencloudcx" {
 variable "helm_repo_portainer" {
   description = "A repositiry url of helm chart to deploy Portainer"
   type        = string
-  default     = "https://portainer.github.io/k8s/"
+  default     = "https://opencloudcx.github.io/portainer-helm"
 }
 
 
