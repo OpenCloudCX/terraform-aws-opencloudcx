@@ -84,6 +84,13 @@ variable "helm_repo_opencloudcx" {
   default     = "https://opencloudcx.github.io/grafana-helm"
 }
 
+variable "helm_repo_portainer" {
+  description = "A repositiry url of helm chart to deploy Portainer"
+  type        = string
+  default     = "https://portainer.github.io/k8s/"
+}
+
+
 variable "helm_timeout" {
   description = "Timeout value to wailt for helm chat deployment"
   type        = number
