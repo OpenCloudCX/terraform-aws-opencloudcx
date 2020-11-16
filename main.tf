@@ -44,7 +44,7 @@ resource "helm_release" "opencloudcx" {
 resource "helm_release" "portainer" {
   name             = "portainer"
   chart            = "portainer"
-  namespace        = "opencloudcx"
+  namespace        = "portainer"
   repository       = var.helm_repo_portainer
   timeout          = var.helm_timeout
   create_namespace = true
