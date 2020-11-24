@@ -90,6 +90,12 @@ variable "helm_repo_portainer" {
   default     = "https://opencloudcx.github.io/portainer-helm"
 }
 
+variable "helm_repo_influxdb" {
+  description = "A repositiry url of helm chart to deploy InfluxDB"
+  type        = string
+  default     = "https://helm.influxdata.com/"
+}
+
 
 variable "helm_timeout" {
   description = "Timeout value to wailt for helm chat deployment"
