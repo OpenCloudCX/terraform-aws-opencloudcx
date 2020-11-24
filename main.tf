@@ -58,7 +58,7 @@ resource "helm_release" "portainer" {
 
 resource "helm_release" "influxdb" {
   name             = "influxdb"
-  chart            = "influxdata"
+  chart            = "influxdb"
   namespace        = "opencloudcx"
   repository       = var.helm_repo_influxdb
   timeout          = var.helm_timeout
