@@ -65,6 +65,26 @@ resource "helm_release" "influxdb" {
   create_namespace = true
   reset_values     = false
 
+
+  set {
+    name  = "user.username"
+    value = "admin"
+  }
+
+  set {
+    name  = "user.password"
+    value = "admin"
+  }
+
+  set {
+    name  = "user.privileges"
+    value = "WITH ALL PRIVILEGES"
+  }
+
+  set {
+    name  = "initScripts.scripts.init.iql"
+    value = " |+ CREATE DATABASE 'prometheus'"
+  }
   depends_on = [
     aws_eks_cluster.eks,
     aws_eks_node_group.ng,
