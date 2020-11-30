@@ -93,7 +93,7 @@ variable "helm_repo_portainer" {
 variable "helm_repo_influxdb" {
   description = "A repositiry url of helm chart to deploy InfluxDB"
   type        = string
-  default     = "https://helm.influxdata.com/"
+  default     = "https://charts.bitnami.com/bitnami"
 }
 
 

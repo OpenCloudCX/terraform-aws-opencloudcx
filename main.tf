@@ -57,7 +57,7 @@ resource "helm_release" "portainer" {
 }
 
 resource "helm_release" "influxdb" {
-  name             = "influxdb"
+  name             = "bitnami"
   chart            = "influxdb"
   namespace        = "opencloudcx"
   repository       = var.helm_repo_influxdb
@@ -67,24 +67,31 @@ resource "helm_release" "influxdb" {
 
 
   set {
-    name  = "user.username"
-    value = "admin"
+    name="database"
+    value = "prometheus"
   }
 
   set {
-    name  = "user.password"
-    value = "admin"
+    name="adminUser.name"
+    value="admin"
   }
 
-  set {
-    name  = "user.privileges"
-    value = "WITH ALL PRIVILEGES"
+set {
+    name="adminUser.pwd"
+    value="admin"
   }
 
-  set {
-    name  = "initScripts.scripts.init.iql"
-    value = " |+ CREATE DATABASE 'prometheus'"
+set {
+    name="user.name"
+    value="prometheus"
   }
+
+set {
+    name="user.pwd"
+    value="prometheus"
+  }
+
+
   depends_on = [
     aws_eks_cluster.eks,
     aws_eks_node_group.ng,
