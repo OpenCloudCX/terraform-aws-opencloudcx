@@ -10,7 +10,7 @@ provider "helm" {
 }
 
 resource "helm_release" "spinnaker" {
-  name             = "spinnaker"
+  name             = "dwardu-helm-charts"
   chart            = "spinnaker"
   namespace        = "spinnaker"
   repository       = var.helm_repo
