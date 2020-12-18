@@ -55,7 +55,7 @@ This terraform module will give you a shell script to get kubeconfig file of an 
 [Important] Before you run this script you must configure your local environment to have proper permission to get the credentials from EKS cluster on your AWS account whatever you are using aws-cli or aws-vault.
 
 ### Code Updates
-To update code in Terraform Registry
+To update code in Terraform Registry at https://registry.terraform.io/modules/OpenCloudCX/opencloudcx/aws/latest
 1. Clone GitHub repo.
 2. Perform and commit changes.
 3. Add a new tag: git tag -a v0.1.1 -m "Version v0.1.1"
