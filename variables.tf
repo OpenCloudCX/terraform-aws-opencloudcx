@@ -81,13 +81,13 @@ variable "helm_repo" {
 variable "helm_repo_opencloudcx" {
   description = "A repositiry url of helm chart to deploy a opencloudcx"
   type        = string
-  default     = "https://opencloudcx.github.io/grafana-helm"
+  default     = "https://github.com/OpenCloudCX/grafana-helm"
 }
 
 variable "helm_repo_portainer" {
   description = "A repositiry url of helm chart to deploy Portainer"
   type        = string
-  default     = "https://opencloudcx.github.io/portainer-helm"
+  default     = "https://github.com/OpenCloudCX/portainer-helm"
 }
 
 variable "helm_repo_influxdb" {
