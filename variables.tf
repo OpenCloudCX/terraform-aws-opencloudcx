@@ -140,3 +140,15 @@ variable "tags" {
   type        = map(string)
   default     = {}
 }
+
+variable "helm_jenkins" {
+  description = "A repository url of the helm chart to deploy jenkins."
+  type        = string
+  default     = "https://charts.jenkins.io"
+}
+
+variable "helm_sonarqube" {
+  description = "A repository url of the helm chart to deploy sonarqube."
+  type        = string
+  default     = "https://oteemo.github.io/charts"
+}
