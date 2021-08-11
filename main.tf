@@ -1,4 +1,4 @@
-### helming!!!
+
 
 provider "helm" {
   kubernetes {
@@ -130,6 +130,45 @@ resource "helm_release" "sonarqube" {
   #   name  = ""
   #   value = ""
   # }
+
+  depends_on = [
+    aws_eks_cluster.eks,
+    aws_eks_node_group.ng,
+  ]
+}
+
+resource "helm_release" "kubernetes-dashboard" {
+
+  name = "kubernetes-dashboard"
+
+  repository = "https://kubernetes.github.io/dashboard/"
+  chart      = "kubernetes-dashboard"
+  namespace  = "default"
+
+  set {
+    name  = "service.type"
+    value = "LoadBalancer"
+  }
+
+  set {
+    name  = "protocolHttp"
+    value = "true"
+  }
+
+  set {
+    name  = "service.externalPort"
+    value = 80
+  }
+
+  set {
+    name  = "replicaCount"
+    value = 2
+  }
+
+  set {
+    name  = "rbac.clusterReadOnlyRole"
+    value = "true"
+  }
 
   depends_on = [
     aws_eks_cluster.eks,

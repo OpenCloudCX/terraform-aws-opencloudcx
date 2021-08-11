@@ -152,6 +152,6 @@ variable "helm_sonarqube" {
   description = "A repository url of the helm chart to deploy sonarqube."
   type        = string
   # default     = "https://oteemo.github.io/charts"
-  default     = "https://opencloudcx.github.io/sonarqube-helm/"
+  default = "https://opencloudcx.github.io/sonarqube-helm/"
 }
 
