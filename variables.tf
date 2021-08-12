@@ -26,7 +26,7 @@ variable "kubernetes_version" {
 
 variable "kubernetes_node_groups" {
   description = "Node group definitions"
-  type        = map
+  type        = map(any)
   default = {
     "default" = {
       "disk_size"     = "20"
@@ -43,7 +43,7 @@ variable "kubernetes_node_groups" {
 ### rdb cluster (aurora-mysql)
 variable "aurora_cluster" {
   description = "RDS Aurora for mysql cluster definition"
-  type        = map
+  type        = map(any)
   default = {
     "node_size"         = "1"
     "node_type"         = "db.t3.medium"
@@ -111,7 +111,7 @@ variable "helm_chart_version" {
 
 variable "helm_chart_values" {
   description = "A list of variables of helm chart to configure the spinnaker deployment"
-  type        = list
+  type        = list(any)
   default     = []
 }
 
@@ -140,3 +140,18 @@ variable "tags" {
   type        = map(string)
   default     = {}
 }
+
+variable "helm_jenkins" {
+  description = "A repository url of the helm chart to deploy jenkins."
+  type        = string
+  # default     = "https://charts.jenkins.io"
+  default = "https://opencloudcx.github.io/jenkins-helm/"
+}
+
+variable "helm_sonarqube" {
+  description = "A repository url of the helm chart to deploy sonarqube."
+  type        = string
+  # default     = "https://oteemo.github.io/charts"
+  default = "https://opencloudcx.github.io/sonarqube-helm/"
+}
+
