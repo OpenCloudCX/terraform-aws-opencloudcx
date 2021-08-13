@@ -96,7 +96,6 @@ variable "helm_repo_influxdb" {
   default     = "https://charts.bitnami.com/bitnami"
 }
 
-
 variable "helm_timeout" {
   description = "Timeout value to wailt for helm chat deployment"
   type        = number
@@ -155,3 +154,12 @@ variable "helm_sonarqube" {
   default = "https://opencloudcx.github.io/sonarqube-helm/"
 }
 
+variable "jenkins_secret" {
+  description = "Jenkins admin password"
+  type        = string
+}
+
+variable "sonarqube_secret" {
+  description = "Sonarqube admin password"
+  type        = string
+}

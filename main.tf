@@ -106,10 +106,10 @@ resource "helm_release" "jenkins" {
   create_namespace = true
   reset_values     = false
 
-  # set {
-  #   name  = ""
-  #   value = ""
-  # }
+  set {
+    name  = "controller.adminPassword"
+    value = var.jenkins_secret
+  }
 
   depends_on = [
     aws_eks_cluster.eks,
@@ -126,10 +126,11 @@ resource "helm_release" "sonarqube" {
   create_namespace = true
   reset_values     = false
 
-  # set {
-  #   name  = ""
-  #   value = ""
-  # }
+
+  set {
+    name  = "account.currentAdminPassword"
+    value = var.sonarqube_secret
+  }
 
   depends_on = [
     aws_eks_cluster.eks,
