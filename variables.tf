@@ -73,25 +73,25 @@ variable "dns_zone" {
 
 ### helm
 variable "helm_repo" {
-  description = "A repositiry url of helm chart to deploy a spinnaker"
+  description = "A repository url of helm chart to deploy a spinnaker"
   type        = string
   default     = "https://opencloudcx.github.io/spinnaker-helm"
 }
 
 variable "helm_repo_opencloudcx" {
-  description = "A repositiry url of helm chart to deploy a opencloudcx"
+  description = "A repository url of helm chart to deploy a opencloudcx"
   type        = string
   default     = "https://opencloudcx.github.io/grafana-helm"
 }
 
 variable "helm_repo_portainer" {
-  description = "A repositiry url of helm chart to deploy Portainer"
+  description = "A repository url of helm chart to deploy Portainer"
   type        = string
   default     = "https://opencloudcx.github.io/portainer-helm"
 }
 
 variable "helm_repo_influxdb" {
-  description = "A repositiry url of helm chart to deploy InfluxDB"
+  description = "A repository url of helm chart to deploy InfluxDB"
   type        = string
   default     = "https://charts.bitnami.com/bitnami"
 }
