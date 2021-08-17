@@ -96,6 +96,27 @@ variable "helm_repo_influxdb" {
   default     = "https://charts.bitnami.com/bitnami"
 }
 
+variable "helm_jenkins" {
+  description = "A repository url of the helm chart to deploy jenkins."
+  type        = string
+  # default     = "https://charts.jenkins.io"
+  default = "https://opencloudcx.github.io/jenkins-helm/"
+}
+
+variable "helm_sonarqube" {
+  description = "A repository url of the helm chart to deploy sonarqube."
+  type        = string
+  # default     = "https://oteemo.github.io/charts"
+  default = "https://opencloudcx.github.io/sonarqube-helm/"
+}
+
+variable "helm_anchore" {
+  description = "A repository url of the helm chart to deploy anchore."
+  type        = string
+  # default     = "https://oteemo.github.io/charts"
+  default = "https://opencloudcx.github.io/anchore-helm/"
+}
+
 variable "helm_timeout" {
   description = "Timeout value to wailt for helm chat deployment"
   type        = number
@@ -138,20 +159,6 @@ variable "tags" {
   description = "The key-value maps for tagging"
   type        = map(string)
   default     = {}
-}
-
-variable "helm_jenkins" {
-  description = "A repository url of the helm chart to deploy jenkins."
-  type        = string
-  # default     = "https://charts.jenkins.io"
-  default = "https://opencloudcx.github.io/jenkins-helm/"
-}
-
-variable "helm_sonarqube" {
-  description = "A repository url of the helm chart to deploy sonarqube."
-  type        = string
-  # default     = "https://oteemo.github.io/charts"
-  default = "https://opencloudcx.github.io/sonarqube-helm/"
 }
 
 variable "jenkins_secret" {
