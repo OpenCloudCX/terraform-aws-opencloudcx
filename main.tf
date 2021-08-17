@@ -142,7 +142,7 @@ resource "helm_release" "anchore-engine" {
   name             = "anchore-engine"
   chart            = "anchore-engine"
   namespace        = "anchore-engine"
-  repository       = var.helm_repo_anchore_engine
+  repository       = var.helm_anchore_engine
   timeout          = var.helm_timeout
   create_namespace = true
   reset_values     = false
