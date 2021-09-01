@@ -14,7 +14,7 @@ variable "kubernetes_version" {
 
 variable "node_groups" {
   description = "Node groups definition"
-  type        = map
+  type        = map(any)
   default = {
     default = {
       min_size      = 1
