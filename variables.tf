@@ -21,7 +21,7 @@ variable "cidr" {
 variable "kubernetes_version" {
   description = "The target version of kubernetes"
   type        = string
-  default     = "1.17"
+  default     = "1.21"
 }
 
 variable "kubernetes_node_groups" {
@@ -84,11 +84,25 @@ variable "helm_repo_opencloudcx" {
   default     = "https://opencloudcx.github.io/grafana-helm"
 }
 
+###################################
+## Portainer variables
+
 variable "helm_repo_portainer" {
   description = "A repository url of helm chart to deploy Portainer"
   type        = string
-  default     = "https://opencloudcx.github.io/portainer-helm"
+  default     = "https://portainer.github.io/k8s/"
+  # default     = "https://opencloudcx.github.io/portainer-helm"
 }
+
+variable "helm_portainer_version" {
+  description = "Helm chart version for portainer"
+  type        = string
+  default     = "1.0.16"
+}
+
+## 
+###################################
+
 
 variable "helm_repo_influxdb" {
   description = "A repository url of helm chart to deploy InfluxDB"
@@ -96,12 +110,29 @@ variable "helm_repo_influxdb" {
   default     = "https://charts.bitnami.com/bitnami"
 }
 
+###################################
+## Jenkins variables
+
 variable "helm_jenkins" {
   description = "A repository url of the helm chart to deploy jenkins."
   type        = string
-  # default     = "https://charts.jenkins.io"
-  default = "https://opencloudcx.github.io/jenkins-helm/"
+  default     = "https://charts.bitnami.com/bitnami"
+  # default = "https://opencloudcx.github.io/jenkins-helm/"
 }
+
+variable "helm_jenkins_version" {
+  description = "Helm chart version for portajenkinsiner"
+  type        = string
+  default     = "8.0.11"
+}
+
+variable "jenkins_secret" {
+  description = "Jenkins admin password"
+  type        = string
+}
+
+## 
+###################################
 
 variable "helm_sonarqube" {
   description = "A repository url of the helm chart to deploy sonarqube."
@@ -159,11 +190,6 @@ variable "tags" {
   description = "The key-value maps for tagging"
   type        = map(string)
   default     = {}
-}
-
-variable "jenkins_secret" {
-  description = "Jenkins admin password"
-  type        = string
 }
 
 variable "sonarqube_secret" {
