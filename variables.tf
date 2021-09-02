@@ -116,14 +116,15 @@ variable "helm_repo_influxdb" {
 variable "helm_jenkins" {
   description = "A repository url of the helm chart to deploy jenkins."
   type        = string
-  default     = "https://charts.bitnami.com/bitnami"
-  # default = "https://opencloudcx.github.io/jenkins-helm/"
+  default     = "https://charts.jenkins.io"
+  # default     = "https://charts.bitnami.com/bitnami"
+  # default     = "https://opencloudcx.github.io/jenkins-helm/"
 }
 
 variable "helm_jenkins_version" {
   description = "Helm chart version for portajenkinsiner"
   type        = string
-  default     = "8.0.11"
+  default     = "3.5.14"
 }
 
 variable "jenkins_secret" {
