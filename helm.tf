@@ -225,7 +225,7 @@ resource "helm_release" "sonarqube" {
   ]
 }
 
-resource "helm_release" "anchore-engine" {
+resource "helm_release" "anchore" {
   name             = "anchore-engine"
   chart            = "anchore-engine"
   namespace        = "anchore-engine"
@@ -238,6 +238,22 @@ resource "helm_release" "anchore-engine" {
     aws_eks_cluster.eks,
     aws_eks_node_group.ng,
   ]
+}
+
+resource "helm_release" "ingress-controller" {
+  name             = "ingress-nginx"
+  chart            = "ingress-nginx"
+  namespace        = "ingress-nginx"
+  repository       = var.ingress_controller
+  timeout          = var.helm_timeout
+  create_namespace = true
+  reset_values     = false
+
+  depends_on = [
+    aws_eks_cluster.eks,
+    aws_eks_node_group.ng,
+  ]
+
 }
 
 # resource "helm_release" "kubernetes-dashboard" {

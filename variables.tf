@@ -197,3 +197,9 @@ variable "sonarqube_secret" {
   description = "Sonarqube admin password"
   type        = string
 }
+
+variable "ingress_controller" {
+  description = "URL for Ingress Controller helm chart"
+  type        = string
+  default     = "https://kubernetes.github.io/ingress-nginx"
+}
