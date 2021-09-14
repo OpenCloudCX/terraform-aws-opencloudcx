@@ -47,7 +47,7 @@ resource "helm_release" "portainer" {
 
   set {
     name  = "service.type"
-    value = "LoadBalancer"
+    value = "ClusterIP"
   }
 
   depends_on = [
