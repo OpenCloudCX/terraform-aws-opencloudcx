@@ -7,7 +7,7 @@ output "name" {
 
 output "endpoint" {
   value       = aws_eks_cluster.eks.endpoint
-  description = "The enpoint of eks cluster"
+  description = "The endpoint of eks cluster"
 }
 
 output "role_arn" {
@@ -32,27 +32,27 @@ output "artifact_write_policy_arn" {
 
 output "vpc_id" {
   value       = aws_vpc.vpc.id
-  description = "The Id. of new VPC"
+  description = "The ID of new VPC"
 }
 
 output "public_subnets" {
   value       = aws_subnet.public.*.id
-  description = "The Id. list of generated public subnets"
+  description = "The ID list of generated public subnets"
 }
 
 output "private_subnets" {
   value       = aws_subnet.private.*.id
-  description = "The Id. list of generated private subnets"
+  description = "The ID list of generated private subnets"
 }
 
 output "hosted_zone_id" {
   value       = aws_route53_zone.vpc.zone_id
-  description = "The hosted zone Id. of internal domain in Route 53"
+  description = "The hosted zone ID of internal domain in Route 53"
 }
 
 output "db_endpoint" {
   value       = aws_route53_record.db.*.name
-  description = "The enpoint of aurora mysql cluster"
+  description = "The endpoint of aurora mysql cluster"
 }
 
 data "template_file" "kubeconfig" {
