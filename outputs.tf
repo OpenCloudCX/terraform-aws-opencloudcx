@@ -65,3 +65,11 @@ output "kubeconfig" {
   value       = data.template_file.kubeconfig.rendered
   description = "Bash script to update kubeconfig file"
 }
+
+output "ingress_status" {
+  value = data.kubernetes_service.ingress_nginx.status
+}
+
+output "ingress_hostname" {
+  value = data.kubernetes_service.ingress_nginx.status.0.load_balancer.0.ingress.0.hostname
+}
