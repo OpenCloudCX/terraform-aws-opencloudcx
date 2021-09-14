@@ -12,7 +12,7 @@ resource "kubernetes_ingress" "jenkins_ingress" {
   spec {
     rule {
 
-      host = "jenkins.riva-cicd-0044.local"
+      host = "jenkins.${var.dns_zone}"
 
       http {
         path {
@@ -42,7 +42,7 @@ resource "kubernetes_ingress" "spinnaker_ingress" {
   spec {
     rule {
 
-      host = "spinnaker.riva-cicd-0044.local"
+      host = "spinnaker.${var.dns_zone}"
 
       http {
         path {
@@ -72,7 +72,7 @@ resource "kubernetes_ingress" "sonarqube_ingress" {
   spec {
     rule {
 
-      host = "sonarqube.riva-cicd-0044.local"
+      host = "sonarqube.${var.dns_zone}"
 
       http {
         path {
@@ -102,7 +102,7 @@ resource "kubernetes_ingress" "grafana_ingress" {
   spec {
     rule {
 
-      host = "grafana.riva-cicd-0044.local"
+      host = "grafana.${var.dns_zone}"
 
       http {
         path {
@@ -132,7 +132,7 @@ resource "kubernetes_ingress" "anchore_ingress" {
   spec {
     rule {
 
-      host = "anchore.riva-cicd-0044.local"
+      host = "anchore.${var.dns_zone}"
 
       http {
         path {
@@ -140,6 +140,36 @@ resource "kubernetes_ingress" "anchore_ingress" {
           backend {
             service_name = "anchore-engine-anchore-engine-api"
             service_port = 8228
+          }
+        }
+      }
+    }
+  }
+}
+
+resource "kubernetes_ingress" "portainer_ingress" {
+
+  wait_for_load_balancer = true
+
+  metadata {
+    name      = "portainer"
+    namespace = "portainer"
+
+    annotations = {
+      "kubernetes.io/ingress.class" = "nginx"
+    }
+  }
+  spec {
+    rule {
+
+      host = "portainer.${var.dns_zone}"
+
+      http {
+        path {
+          path = "/"
+          backend {
+            service_name = "portainer"
+            service_port = 9000
           }
         }
       }
