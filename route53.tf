@@ -70,4 +70,16 @@ resource "aws_route53_record" "sonarqube_cname" {
   ]
 }
 
+resource "aws_route53_record" "spinnaker_gate_cname" {
+  zone_id = aws_route53_zone.vpc.zone_id
+  name    = "spinnaker_gate.demo.${var.dns_zone}"
+  type    = "CNAME"
+  ttl     = "300"
+  records = [data.kubernetes_service.ingress_nginx.status.0.load_balancer.0.ingress.0.hostname]
+
+  depends_on = [
+    aws_eks_cluster.eks,
+    aws_eks_node_group.ng,
+  ]
+}
 
