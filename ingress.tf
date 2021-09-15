@@ -25,6 +25,10 @@ resource "kubernetes_ingress" "jenkins_ingress" {
       }
     }
   }
+  
+  depends_on = [
+    helm_release.ingress-controller,
+  ]
 }
 
 resource "kubernetes_ingress" "spinnaker_ingress" {
@@ -55,6 +59,10 @@ resource "kubernetes_ingress" "spinnaker_ingress" {
       }
     }
   }
+  
+  depends_on = [
+    helm_release.ingress-controller,
+  ]
 }
 
 resource "kubernetes_ingress" "sonarqube_ingress" {
@@ -85,6 +93,10 @@ resource "kubernetes_ingress" "sonarqube_ingress" {
       }
     }
   }
+  
+  depends_on = [
+    helm_release.ingress-controller,
+  ]
 }
 
 resource "kubernetes_ingress" "grafana_ingress" {
@@ -115,6 +127,10 @@ resource "kubernetes_ingress" "grafana_ingress" {
       }
     }
   }
+  
+  depends_on = [
+    helm_release.ingress-controller,
+  ]
 }
 
 resource "kubernetes_ingress" "anchore_ingress" {
@@ -145,6 +161,10 @@ resource "kubernetes_ingress" "anchore_ingress" {
       }
     }
   }
+  
+  depends_on = [
+    helm_release.ingress-controller,
+  ]
 }
 
 resource "kubernetes_ingress" "portainer_ingress" {
@@ -175,5 +195,43 @@ resource "kubernetes_ingress" "portainer_ingress" {
       }
     }
   }
+  
+  depends_on = [
+    helm_release.ingress-controller,
+  ]
+}
+
+resource "kubernetes_ingress" "spinnaker_gate__ingress" {
+
+  wait_for_load_balancer = true
+
+  metadata {
+    name      = "spinnaker-gate"
+    namespace = "spinnaker"
+
+    annotations = {
+      "kubernetes.io/ingress.class" = "nginx"
+    }
+  }
+  spec {
+    rule {
+
+      host = "spinnaker-gate.${var.dns_zone}"
+
+      http {
+        path {
+          path = "/"
+          backend {
+            service_name = "spin-gate"
+            service_port = 8084
+          }
+        }
+      }
+    }
+  }
+  
+  depends_on = [
+    helm_release.ingress-controller,
+  ]
 }
 
