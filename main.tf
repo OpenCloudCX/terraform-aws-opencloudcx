@@ -6,7 +6,6 @@ provider "helm" {
   }
 }
 
-
 provider "kubernetes" {
   host                   = aws_eks_cluster.eks.endpoint
   token                  = data.aws_eks_cluster_auth.eks.token
