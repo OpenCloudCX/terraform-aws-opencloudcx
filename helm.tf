@@ -117,6 +117,26 @@ resource "helm_release" "jenkins" {
     value = var.jenkins_secret
   }
 
+  /*set {
+    name  = "controller.numExecutors"
+    value = "1"
+  }*/
+
+  /*set {
+    name  = "controller.installLatestSpecifiedPlugins"
+    value = "true"
+  }*/
+
+  /*set {
+    name  = "serviceAccount.name"
+    value = "jenkins-robot"
+  }*/
+
+  /*set {
+    name  = "serviceAccount.create"
+    value = true
+  }*/
+
   set {
     name  = "controller.tag"
     value = "2.309-jdk11"
@@ -144,7 +164,7 @@ resource "helm_release" "jenkins" {
 
   set {
     name  = "controller.installPlugins[4]"
-    value = "pipeline-model-extensions:1.9.1"
+    value = "pipeline-model-extensions:1.9.2"
   }
 
   set {
