@@ -203,3 +203,25 @@ variable "ingress_controller" {
   type        = string
   default     = "https://kubernetes.github.io/ingress-nginx"
 }
+
+variable "kubectl_version" {
+  type    = string
+  default = "1.22.1"
+}
+
+variable "dockerhub_secret_name" {
+  type    = string
+}
+
+variable "dockerhub_username" {
+  type    = string
+}
+
+variable "dockerhub_secret" {
+  type    = string
+}
+
+variable "dockerhub_url" {
+  type    = string
+  default = "https://index.docker.io/v1/"
+}
