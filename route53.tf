@@ -37,7 +37,7 @@ resource "aws_route53_record" "anchore_cname" {
   type    = "CNAME"
   ttl     = "300"
   records = [data.kubernetes_service.ingress_nginx.status.0.load_balancer.0.ingress.0.hostname]
-  
+
   depends_on = [
     aws_eks_cluster.eks,
     aws_eks_node_group.ng,
