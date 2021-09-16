@@ -25,8 +25,9 @@ resource "kubernetes_ingress" "jenkins_ingress" {
       }
     }
   }
-  
+
   depends_on = [
+    helm_release.jenkins,
     helm_release.ingress-controller,
   ]
 }
@@ -59,8 +60,9 @@ resource "kubernetes_ingress" "spinnaker_ingress" {
       }
     }
   }
-  
+
   depends_on = [
+    helm_release.spinnaker,
     helm_release.ingress-controller,
   ]
 }
@@ -93,8 +95,9 @@ resource "kubernetes_ingress" "sonarqube_ingress" {
       }
     }
   }
-  
+
   depends_on = [
+    helm_release.sonarqube,
     helm_release.ingress-controller,
   ]
 }
@@ -127,7 +130,7 @@ resource "kubernetes_ingress" "grafana_ingress" {
       }
     }
   }
-  
+
   depends_on = [
     helm_release.ingress-controller,
   ]
@@ -161,8 +164,9 @@ resource "kubernetes_ingress" "anchore_ingress" {
       }
     }
   }
-  
+
   depends_on = [
+    helm_release.anchore,
     helm_release.ingress-controller,
   ]
 }
@@ -195,8 +199,9 @@ resource "kubernetes_ingress" "portainer_ingress" {
       }
     }
   }
-  
+
   depends_on = [
+    helm_release.portainer,
     helm_release.ingress-controller,
   ]
 }
@@ -229,8 +234,9 @@ resource "kubernetes_ingress" "spinnaker_gate__ingress" {
       }
     }
   }
-  
+
   depends_on = [
+    helm_release.spinnaker,
     helm_release.ingress-controller,
   ]
 }
