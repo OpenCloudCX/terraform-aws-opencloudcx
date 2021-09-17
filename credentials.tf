@@ -10,6 +10,9 @@ resource "kubernetes_role" "jenkins_admin_role" {
     verbs      = ["get", "list", "watch"]
   }
 
+  depends_on = [
+    helm_release.jenkins,
+  ]
 }
 
 resource "kubernetes_service_account" "jenkins_service_account" {
@@ -18,6 +21,9 @@ resource "kubernetes_service_account" "jenkins_service_account" {
     namespace = "jenkins"
   }
 
+  depends_on = [
+    helm_release.jenkins,
+  ]
 }
 
 resource "kubernetes_role_binding" "jenkins_service_rolebinding" {
@@ -43,6 +49,10 @@ resource "kubernetes_role_binding" "jenkins_service_rolebinding" {
     name      = "jenkins-robot"
     namespace = "jenkins"
   }
+
+  depends_on = [
+    helm_release.jenkins,
+  ]
 }
 
 resource "kubernetes_secret" "dockerhub_secret" {
@@ -64,6 +74,10 @@ DOCKER
   }
 
   type = "kubernetes.io/dockerconfigjson"
+
+  depends_on = [
+    helm_release.ingress-controller,
+  ]
 }
 
 /*

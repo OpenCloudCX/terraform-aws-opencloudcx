@@ -5,8 +5,7 @@ data "kubernetes_service" "ingress_nginx" {
   }
 
   depends_on = [
-    aws_eks_cluster.eks,
-    aws_eks_node_group.ng,
+    helm_release.ingress-controller,
   ]
 }
 
@@ -16,6 +15,11 @@ resource "aws_route53_record" "jenkins_cname" {
   type    = "CNAME"
   ttl     = "300"
   records = [data.kubernetes_service.ingress_nginx.status.0.load_balancer.0.ingress.0.hostname]
+
+  depends_on = [
+    helm_release.ingress-controller,
+    helm_release.jenkins,
+  ]
 }
 
 resource "aws_route53_record" "spinnaker_cname" {
@@ -26,8 +30,8 @@ resource "aws_route53_record" "spinnaker_cname" {
   records = [data.kubernetes_service.ingress_nginx.status.0.load_balancer.0.ingress.0.hostname]
 
   depends_on = [
-    aws_eks_cluster.eks,
-    aws_eks_node_group.ng,
+    helm_release.ingress-controller,
+    helm_release.spinnaker,
   ]
 }
 
@@ -39,8 +43,8 @@ resource "aws_route53_record" "anchore_cname" {
   records = [data.kubernetes_service.ingress_nginx.status.0.load_balancer.0.ingress.0.hostname]
 
   depends_on = [
-    aws_eks_cluster.eks,
-    aws_eks_node_group.ng,
+    helm_release.ingress-controller,
+    helm_release.anchore,
   ]
 }
 
@@ -52,8 +56,7 @@ resource "aws_route53_record" "grafana_cname" {
   records = [data.kubernetes_service.ingress_nginx.status.0.load_balancer.0.ingress.0.hostname]
 
   depends_on = [
-    aws_eks_cluster.eks,
-    aws_eks_node_group.ng,
+    helm_release.ingress-controller,
   ]
 }
 
@@ -65,8 +68,8 @@ resource "aws_route53_record" "sonarqube_cname" {
   records = [data.kubernetes_service.ingress_nginx.status.0.load_balancer.0.ingress.0.hostname]
 
   depends_on = [
-    aws_eks_cluster.eks,
-    aws_eks_node_group.ng,
+    helm_release.ingress-controller,
+    helm_release.sonarqube  
   ]
 }
 
@@ -78,8 +81,8 @@ resource "aws_route53_record" "spinnaker_gate_cname" {
   records = [data.kubernetes_service.ingress_nginx.status.0.load_balancer.0.ingress.0.hostname]
 
   depends_on = [
-    aws_eks_cluster.eks,
-    aws_eks_node_group.ng,
+    helm_release.ingress-controller,
+    helm_release.spinnaker  
   ]
 }
 
