@@ -210,18 +210,27 @@ variable "kubectl_version" {
 }
 
 variable "dockerhub_secret_name" {
-  type    = string
+  type = string
 }
 
 variable "dockerhub_username" {
-  type    = string
+  type = string
 }
 
 variable "dockerhub_secret" {
-  type    = string
+  type = string
 }
 
 variable "dockerhub_url" {
   type    = string
   default = "https://index.docker.io/v1/"
+}
+
+variable "github_access_token" {
+  type = string
+}
+
+### aws credential
+variable "aws_account_id" {
+  description = "The aws account id for the tf backend creation (e.g. 857026751867)"
 }
