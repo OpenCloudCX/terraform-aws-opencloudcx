@@ -117,10 +117,10 @@ resource "helm_release" "jenkins" {
     value = var.jenkins_secret
   }
 
-  /*set {
+  set {
     name  = "controller.numExecutors"
     value = "1"
-  }*/
+  }
 
   /*set {
     name  = "controller.installLatestSpecifiedPlugins"
