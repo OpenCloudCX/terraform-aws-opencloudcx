@@ -57,7 +57,7 @@ resource "kubernetes_role_binding" "jenkins_service_rolebinding" {
 
 resource "kubernetes_secret" "dockerhub_secret" {
   metadata {
-    name = var.dockerhub_secret_name
+    name      = var.dockerhub_secret_name
     namespace = "jenkins"
   }
 

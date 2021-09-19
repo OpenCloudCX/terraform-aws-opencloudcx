@@ -69,7 +69,7 @@ resource "aws_route53_record" "sonarqube_cname" {
 
   depends_on = [
     helm_release.ingress-controller,
-    helm_release.sonarqube  
+    helm_release.sonarqube
   ]
 }
 
@@ -82,7 +82,7 @@ resource "aws_route53_record" "spinnaker_gate_cname" {
 
   depends_on = [
     helm_release.ingress-controller,
-    helm_release.spinnaker  
+    helm_release.spinnaker
   ]
 }
 
