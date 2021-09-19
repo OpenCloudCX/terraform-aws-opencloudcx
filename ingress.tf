@@ -3,7 +3,7 @@ resource "kubernetes_ingress" "jenkins_ingress" {
   wait_for_load_balancer = true
 
   metadata {
-    name      = "jenkins"
+    name      = "jenkins-reverse-proxy"
     namespace = "jenkins"
     annotations = {
       "kubernetes.io/ingress.class" = "nginx"
@@ -13,6 +13,40 @@ resource "kubernetes_ingress" "jenkins_ingress" {
     rule {
 
       host = "jenkins.${var.dns_zone}"
+
+      http {
+        path {
+          path = "/"
+          backend {
+            service_name = "jenkins"
+            service_port = 8080
+          }
+        }
+      }
+    }
+  }
+
+  depends_on = [
+    helm_release.jenkins,
+    helm_release.ingress-controller,
+  ]
+}
+
+resource "kubernetes_ingress" "jenkins_ingress_alb" {
+
+  wait_for_load_balancer = true
+
+  metadata {
+    name      = "jenkins"
+    namespace = "jenkins"
+    annotations = {
+      "kubernetes.io/ingress.class" = "nginx"
+    }
+  }
+  spec {
+    rule {
+
+      host = data.kubernetes_service.ingress_nginx.status.0.load_balancer.0.ingress.0.hostname
 
       http {
         path {
