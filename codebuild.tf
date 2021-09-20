@@ -81,6 +81,59 @@ resource "aws_codebuild_project" "ocx_build_bootstrap" {
 
 }
 
+resource "aws_iam_role_policy" "codebuild-eks-kubectl-policy" { 
+  name = "${random_string.suffix.result}-ocxbootstrap-codebuild-eks-kubectl-policy"
+  role = aws_iam_role.codebuild_kubectl_role.id
+  policy = <<EOF
+{
+    "Version": "2012-10-17",
+    "Statement": [
+        {
+            "Effect": "Allow",
+            "Action": "eks:Describe*",
+            "Resource": "*"
+        }
+    ]
+}
+EOF
+}
+
+resource "aws_iam_role" "codebuild_kubectl_role" {
+  name               = "${random_string.suffix.result}-ocxbootstrap-codebuild-kubectl-role"
+  assume_role_policy = <<EOF
+{
+  "Version": "2012-10-17",
+  "Statement": [
+    {
+      "Effect": "Allow",
+      "Principal": {
+        "AWS": "arn:aws:iam::725653950044:root"
+      },
+      "Action": "sts:AssumeRole"
+    }
+  ]
+}
+EOF
+}
+
+resource "aws_iam_role_policy" "codebuild-eks-assume-policy" { 
+  name = "${random_string.suffix.result}-ocxbootstrap-codebuild-eks-assume-policy"
+  role = aws_iam_role.codebuild.id
+  policy = <<EOF
+{
+    "Version": "2012-10-17",
+    "Statement": [
+        {
+            "Sid": "VisualEditor0",
+            "Effect": "Allow",
+            "Action": "sts:AssumeRole",
+            "Resource": "${aws_iam_role.codebuild_kubectl_role.arn}"
+        }
+    ]  
+}
+EOF
+}
+
 resource "aws_iam_role" "codebuild" {
   name               = "${random_string.suffix.result}-ocxbootstrap-codebuild-role"
   assume_role_policy = <<EOF
