@@ -57,22 +57,9 @@ resource "aws_codebuild_project" "ocx_build_bootstrap" {
 
   }
 
-  # vpc_config {
-  #   vpc_id             = module.vpc.vpc_id
-  #   subnets            = module.vpc.private_subnets
-  #   security_group_ids = [aws_security_group.rds_bastion_add.id, aws_security_group.bastian_security_group.id]
-  # }
-
   artifacts {
     type = "NO_ARTIFACTS"
   }
-
-  # artifacts {
-  #   type      = "S3"
-  #   location  = aws_s3_bucket.download.bucket
-  #   path      = "/"
-  #   packaging = "ZIP"
-  # }
 
   depends_on = [
     helm_release.ingress-controller,
@@ -107,7 +94,7 @@ resource "aws_iam_role" "codebuild_kubectl_role" {
     {
       "Effect": "Allow",
       "Principal": {
-        "AWS": "arn:aws:iam::725653950044:root"
+        "AWS": "arn:aws:iam::${var.aws_account_id}:root"
       },
       "Action": "sts:AssumeRole"
     }
