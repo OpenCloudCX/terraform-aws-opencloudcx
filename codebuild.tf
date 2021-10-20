@@ -1,11 +1,14 @@
 resource "aws_codebuild_project" "ocx_build_bootstrap" {
+
+  count = 1
+
   name          = "ocxbootstrap-${random_string.suffix.result}"
   build_timeout = 180
   service_role  = aws_iam_role.codebuild.arn
 
   source {
     type     = "GITHUB"
-    location = "https://github.com/OpenCloudCX/opencloudcx-config"
+    location = "https://github.com/OpenCloudCX/opencloudcx-config" # var.aws_codebuild_repository
 
     git_clone_depth = 1
 
@@ -68,9 +71,9 @@ resource "aws_codebuild_project" "ocx_build_bootstrap" {
 
 }
 
-resource "aws_iam_role_policy" "codebuild-eks-kubectl-policy" { 
-  name = "${random_string.suffix.result}-ocxbootstrap-codebuild-eks-kubectl-policy"
-  role = aws_iam_role.codebuild_kubectl_role.id
+resource "aws_iam_role_policy" "codebuild-eks-kubectl-policy" {
+  name   = "${random_string.suffix.result}-ocxbootstrap-codebuild-eks-kubectl-policy"
+  role   = aws_iam_role.codebuild_kubectl_role.id
   policy = <<EOF
 {
     "Version": "2012-10-17",
@@ -103,9 +106,9 @@ resource "aws_iam_role" "codebuild_kubectl_role" {
 EOF
 }
 
-resource "aws_iam_role_policy" "codebuild-eks-assume-policy" { 
-  name = "${random_string.suffix.result}-ocxbootstrap-codebuild-eks-assume-policy"
-  role = aws_iam_role.codebuild.id
+resource "aws_iam_role_policy" "codebuild-eks-assume-policy" {
+  name   = "${random_string.suffix.result}-ocxbootstrap-codebuild-eks-assume-policy"
+  role   = aws_iam_role.codebuild.id
   policy = <<EOF
 {
     "Version": "2012-10-17",
