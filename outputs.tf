@@ -46,7 +46,7 @@ output "private_subnets" {
 }
 
 output "hosted_zone_id" {
-  value       = aws_route53_zone.vpc.zone_id
+  value       = data.aws_route53_zone.vpc.zone_id
   description = "The hosted zone ID of internal domain in Route 53"
 }
 
