@@ -122,7 +122,7 @@ variable "helm_jenkins" {
 }
 
 variable "helm_jenkins_version" {
-  description = "Helm chart version for portajenkinsiner"
+  description = "Helm chart version for jenkins"
   type        = string
   default     = "3.5.14"
 }
@@ -204,22 +204,28 @@ variable "ingress_controller" {
   default     = "https://kubernetes.github.io/ingress-nginx"
 }
 
+variable "helm_cert_manager" {
+  description = "URL for cert-manager helm chart repository"
+  type        = string
+  default     = "https://charts.jetstack.io"
+}
+
 variable "kubectl_version" {
   type    = string
   default = "1.22.1"
 }
 
-variable "dockerhub_secret_name" {
-  type = string
-}
+# variable "dockerhub_secret_name" {
+#   type = string
+# }
 
-variable "dockerhub_username" {
-  type = string
-}
+# variable "dockerhub_username" {
+#   type = string
+# }
 
-variable "dockerhub_secret" {
-  type = string
-}
+# variable "dockerhub_secret" {
+#   type = string
+# }
 
 variable "dockerhub_url" {
   type    = string
@@ -234,3 +240,9 @@ variable "github_access_token" {
 variable "aws_account_id" {
   description = "The aws account id for the tf backend creation (e.g. 857026751867)"
 }
+
+# variable "kubernetes_secrets" {
+#   description = "Kubernetes secrets to plant into ecosystem"
+#   type        = map(any)
+#   default     = {}
+# }
