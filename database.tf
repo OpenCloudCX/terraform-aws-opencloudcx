@@ -120,7 +120,7 @@ resource "aws_rds_cluster_instance" "db" {
 # dns records
 resource "aws_route53_record" "db" {
   count   = local.cluster_count
-  zone_id = aws_route53_zone.vpc.zone_id
+  zone_id = data.aws_route53_zone.vpc.zone_id
   name    = format("%s-db.%s", local.name, var.dns_zone)
   type    = "CNAME"
   ttl     = 300
