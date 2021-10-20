@@ -294,3 +294,34 @@ resource "helm_release" "cert-manager" {
   ]
 }
 
+resource "helm_release" "selenium3_grid" {
+  name             = "selenium3"
+  chart            = "selenium3"
+  namespace        = "jenkins"
+  repository       = var.helm_selenium
+  timeout          = var.helm_timeout
+  version          = var.helm_selenium_version
+  create_namespace = true
+  reset_values     = false
+
+  set {
+    name  = "firefox.enabled"
+    value = "true"
+  }
+
+  set {
+    name  = "chrome.enabled"
+    value = "true"
+  }
+
+  set {
+    name  = "hub.serviceType"
+    value = "ClusterIP"
+  }
+
+  depends_on = [
+    aws_eks_cluster.eks,
+    aws_eks_node_group.ng,
+  ]
+}
+

@@ -210,6 +210,18 @@ variable "helm_cert_manager" {
   default     = "https://charts.jetstack.io"
 }
 
+variable "helm_selenium" {
+  description = "URL for cert-manager helm chart repository"
+  type        = string
+  default     = "https://chart.testarchitect.com"
+}
+
+variable "helm_selenium_version" {
+  description = "Version for selenium helm chart"
+  type        = string
+  default     = "1.2.4"
+}
+
 variable "kubectl_version" {
   type    = string
   default = "1.22.1"

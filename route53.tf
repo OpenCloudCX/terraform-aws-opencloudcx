@@ -99,3 +99,16 @@ resource "aws_route53_record" "spinnaker_gate_cname" {
   ]
 }
 
+resource "aws_route53_record" "selenium_gate_cname" {
+  zone_id = data.aws_route53_zone.vpc.zone_id
+  name    = "selenium.${var.dns_zone}"
+  type    = "CNAME"
+  ttl     = "300"
+  records = [data.kubernetes_service.ingress_nginx.status.0.load_balancer.0.ingress.0.hostname]
+
+  depends_on = [
+    helm_release.ingress-controller,
+    helm_release.selenium3_grid
+  ]
+}
+

@@ -1,37 +1,3 @@
-# resource "kubernetes_ingress" "jenkins_ingress_dns_test" {
-
-#   wait_for_load_balancer = true
-
-#   metadata {
-#     name      = "jenkins-dns-test"
-#     namespace = "jenkins"
-#     annotations = {
-#       "kubernetes.io/ingress.class" = "nginx"
-#     }
-#   }
-#   spec {
-#     rule {
-
-#       host = "honeybadger.demoriva.com"
-
-#       http {
-#         path {
-#           path = "/"
-#           backend {
-#             service_name = "jenkins"
-#             service_port = 8080
-#           }
-#         }
-#       }
-#     }9000
-#   }
-
-#   depends_on = [
-#     helm_release.jenkins,
-#     helm_release.ingress-controller,
-#   ]
-# }
-
 resource "kubernetes_ingress" "jenkins_ingress" {
 
   wait_for_load_balancer = true
@@ -345,6 +311,46 @@ resource "kubernetes_ingress" "spinnaker_gate__ingress" {
 
   depends_on = [
     helm_release.spinnaker,
+    helm_release.ingress-controller,
+  ]
+}
+
+resource "kubernetes_ingress" "selenium3__ingress" {
+
+  wait_for_load_balancer = true
+
+  metadata {
+    name      = "selenium3-grid"
+    namespace = "jenkins"
+
+    annotations = {
+      "kubernetes.io/ingress.class" = "nginx"
+      "cert-manager.io/cluster-issuer" = "cert-manager"
+    }
+  }
+  spec {
+    rule {
+
+      host = "selenium.${var.dns_zone}"
+
+      http {
+        path {
+          path = "/"
+          backend {
+            service_name = "selenium3-selenium-hub"
+            service_port = 4444
+          }
+        }
+      }
+    }
+    
+    tls {
+      secret_name = "selenium3-tls-secret"
+    }
+  }
+
+  depends_on = [
+    helm_release.selenium3_grid,
     helm_release.ingress-controller,
   ]
 }
