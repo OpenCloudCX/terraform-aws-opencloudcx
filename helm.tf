@@ -1,13 +1,43 @@
 resource "helm_release" "spinnaker" {
-  name             = "spinnaker"
-  chart            = "spinnaker"
-  namespace        = "spinnaker"
-  repository       = var.helm_repo
-  timeout          = var.helm_timeout
-  version          = var.helm_chart_version
-  values           = var.helm_chart_values
+  name       = "spinnaker"
+  chart      = "spinnaker"
+  namespace  = "spinnaker"
+  repository = var.helm_repo
+  timeout    = var.helm_timeout
+  version    = var.helm_chart_version
+  # values           = var.helm_chart_values
   create_namespace = true
   reset_values     = false
+
+  set {
+    name  = "halyard.spinnakerVersion"
+    value = "1.19.12"
+  }
+
+  set {
+    name  = "global.spinDeck.protocol"
+    value = "https"
+  }
+
+  set {
+    name  = "installOpenLdap"
+    value = "true"
+  }
+
+  set {
+    name  = "ldap.enabled"
+    value = "true"
+  }
+
+  set {
+    name  = "ldap.url"
+    value = "ldap://-openldap:389"
+  }
+
+  set {
+    name  = "sapor.config.spinnaker.authnEnabled"
+    value = "true"
+  }
 
   depends_on = [
     aws_eks_cluster.eks,
@@ -318,6 +348,42 @@ resource "helm_release" "selenium3_grid" {
     name  = "hub.serviceType"
     value = "ClusterIP"
   }
+
+  depends_on = [
+    aws_eks_cluster.eks,
+    aws_eks_node_group.ng,
+  ]
+}
+
+resource "helm_release" "keycloak" {
+  name             = "keycloak"
+  chart            = "keycloak"
+  namespace        = "spinnaker"
+  repository       = var.helm_keycloak
+  timeout          = var.helm_timeout
+  version          = var.helm_keycloak_version
+  create_namespace = true
+  reset_values     = false
+
+  set {
+    name  = "auth.adminPassword"
+    value = var.keycloak_admin_secret
+  }
+
+  set {
+    name  = "auth.managementPassword"
+    value = var.keycloak_user_secret
+  }
+
+  # set {
+  #   name  = "service.type"
+  #   value = "ClusterIP"
+  # }
+
+  # set {
+  #   name  = "ingress.hostname"
+  #   value = data.kubernetes_service.ingress_nginx.status.0.load_balancer.0.ingress.0.hostname
+  # }
 
   depends_on = [
     aws_eks_cluster.eks,

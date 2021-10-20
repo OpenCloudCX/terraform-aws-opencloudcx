@@ -222,6 +222,18 @@ variable "helm_selenium_version" {
   default     = "1.2.4"
 }
 
+variable "helm_keycloak" {
+  description = "URL for keycloak helm chart repository"
+  type        = string
+  default     = "https://charts.bitnami.com/bitnami"
+}
+
+variable "helm_keycloak_version" {
+  description = "Version for keycloak helm chart"
+  type        = string
+  default     = "5.1.2"
+}
+
 variable "kubectl_version" {
   type    = string
   default = "1.22.1"
@@ -258,3 +270,12 @@ variable "aws_account_id" {
 #   type        = map(any)
 #   default     = {}
 # }
+
+variable "keycloak_admin_secret" {
+  type = string
+}
+
+variable "keycloak_user_secret" {
+  type = string
+}
+

@@ -25,7 +25,7 @@ resource "kubernetes_ingress" "jenkins_ingress" {
         }
       }
     }
-    
+
     tls {
       secret_name = "jenkins-tls-secret"
     }
@@ -45,7 +45,7 @@ resource "kubernetes_ingress" "jenkins_ingress_alb" {
     name      = "jenkins"
     namespace = "jenkins"
     annotations = {
-      "kubernetes.io/ingress.class" = "nginx"
+      "kubernetes.io/ingress.class"    = "nginx"
       "cert-manager.io/cluster-issuer" = "cert-manager"
     }
   }
@@ -64,7 +64,7 @@ resource "kubernetes_ingress" "jenkins_ingress_alb" {
         }
       }
     }
-    
+
     tls {
       secret_name = "jenkins-tls-alb-secret"
     }
@@ -85,7 +85,7 @@ resource "kubernetes_ingress" "spinnaker_ingress" {
     namespace = "spinnaker"
 
     annotations = {
-      "kubernetes.io/ingress.class" = "nginx"
+      "kubernetes.io/ingress.class"    = "nginx"
       "cert-manager.io/cluster-issuer" = "cert-manager"
     }
   }
@@ -104,7 +104,7 @@ resource "kubernetes_ingress" "spinnaker_ingress" {
         }
       }
     }
-    
+
     tls {
       secret_name = "spinnaker-tls-secret"
     }
@@ -125,7 +125,7 @@ resource "kubernetes_ingress" "sonarqube_ingress" {
     namespace = "sonarqube"
 
     annotations = {
-      "kubernetes.io/ingress.class" = "nginx"
+      "kubernetes.io/ingress.class"    = "nginx"
       "cert-manager.io/cluster-issuer" = "cert-manager"
     }
   }
@@ -144,7 +144,7 @@ resource "kubernetes_ingress" "sonarqube_ingress" {
         }
       }
     }
-    
+
     tls {
       secret_name = "sonarqube-tls-secret"
     }
@@ -165,7 +165,7 @@ resource "kubernetes_ingress" "grafana_ingress" {
     namespace = "opencloudcx"
 
     annotations = {
-      "kubernetes.io/ingress.class" = "nginx"
+      "kubernetes.io/ingress.class"    = "nginx"
       "cert-manager.io/cluster-issuer" = "cert-manager"
     }
   }
@@ -184,7 +184,7 @@ resource "kubernetes_ingress" "grafana_ingress" {
         }
       }
     }
-    
+
     tls {
       secret_name = "grafana-tls-secret"
     }
@@ -204,7 +204,7 @@ resource "kubernetes_ingress" "anchore_ingress" {
     namespace = "anchore-engine"
 
     annotations = {
-      "kubernetes.io/ingress.class" = "nginx"
+      "kubernetes.io/ingress.class"    = "nginx"
       "cert-manager.io/cluster-issuer" = "cert-manager"
     }
   }
@@ -223,7 +223,7 @@ resource "kubernetes_ingress" "anchore_ingress" {
         }
       }
     }
-    
+
     tls {
       secret_name = "anchore-tls-secret"
     }
@@ -244,7 +244,7 @@ resource "kubernetes_ingress" "portainer_ingress" {
     namespace = "portainer"
 
     annotations = {
-      "kubernetes.io/ingress.class" = "nginx"
+      "kubernetes.io/ingress.class"    = "nginx"
       "cert-manager.io/cluster-issuer" = "cert-manager"
     }
   }
@@ -263,7 +263,7 @@ resource "kubernetes_ingress" "portainer_ingress" {
         }
       }
     }
-    
+
     tls {
       secret_name = "portainer-tls-secret"
     }
@@ -284,7 +284,7 @@ resource "kubernetes_ingress" "spinnaker_gate__ingress" {
     namespace = "spinnaker"
 
     annotations = {
-      "kubernetes.io/ingress.class" = "nginx"
+      "kubernetes.io/ingress.class"    = "nginx"
       "cert-manager.io/cluster-issuer" = "cert-manager"
     }
   }
@@ -303,7 +303,7 @@ resource "kubernetes_ingress" "spinnaker_gate__ingress" {
         }
       }
     }
-    
+
     tls {
       secret_name = "spinnaker-tls-secret"
     }
@@ -324,7 +324,7 @@ resource "kubernetes_ingress" "selenium3__ingress" {
     namespace = "jenkins"
 
     annotations = {
-      "kubernetes.io/ingress.class" = "nginx"
+      "kubernetes.io/ingress.class"    = "nginx"
       "cert-manager.io/cluster-issuer" = "cert-manager"
     }
   }
@@ -343,7 +343,7 @@ resource "kubernetes_ingress" "selenium3__ingress" {
         }
       }
     }
-    
+
     tls {
       secret_name = "selenium3-tls-secret"
     }
@@ -354,4 +354,44 @@ resource "kubernetes_ingress" "selenium3__ingress" {
     helm_release.ingress-controller,
   ]
 }
+
+# resource "kubernetes_ingress" "keycloak__ingress" {
+
+#   wait_for_load_balancer = true
+
+#   metadata {
+#     name      = "keycloak"
+#     namespace = "spinnaker"
+
+#     annotations = {
+#       "kubernetes.io/ingress.class" = "nginx"
+#       "cert-manager.io/cluster-issuer" = "cert-manager"
+#     }
+#   }
+#   spec {
+#     rule {
+
+#       host = "keycloak.${var.dns_zone}"
+
+#       http {
+#         path {
+#           path = "/"
+#           backend {
+#             service_name = "keycloak"
+#             service_port = 80
+#           }
+#         }
+#       }
+#     }
+
+#     tls {
+#       secret_name = "keycloak-tls-secret"
+#     }
+#   }
+
+#   depends_on = [
+#     helm_release.keycloak,
+#     helm_release.ingress-controller,
+#   ]
+# }
 
