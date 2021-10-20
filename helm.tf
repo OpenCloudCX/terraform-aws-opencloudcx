@@ -209,7 +209,7 @@ resource "helm_release" "jenkins" {
 
   set {
     name  = "controller.installPlugins[13]"
-    value = "configuration-as-code:1.51"
+    value = "configuration-as-code:1.52"
   }
 
   set {
@@ -272,5 +272,25 @@ resource "helm_release" "ingress-controller" {
     aws_eks_cluster.eks,
     aws_eks_node_group.ng,
   ]
-
 }
+
+resource "helm_release" "cert-manager" {
+  name             = "cert-manager"
+  chart            = "cert-manager"
+  namespace        = "cert-manager"
+  repository       = var.helm_cert_manager
+  timeout          = var.helm_timeout
+  create_namespace = true
+  reset_values     = false
+
+  set {
+    name  = "installCRDs"
+    value = "true"
+  }
+
+  depends_on = [
+    aws_eks_cluster.eks,
+    aws_eks_node_group.ng,
+  ]
+}
+
