@@ -77,3 +77,11 @@ output "ingress_hostname" {
     helm_release.ingress-controller,
   ]
 }
+
+output "ingress_hostname_secure" {
+  value = data.kubernetes_service.ingress_nginx_secure.status.0.load_balancer.0.ingress.0.hostname
+
+  depends_on = [
+    helm_release.ingress-controller,
+  ]
+}
