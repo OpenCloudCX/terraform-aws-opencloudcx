@@ -35,7 +35,7 @@ resource "aws_codebuild_project" "ocx_build_bootstrap" {
 
     environment_variable {
       name  = "INGRESS_ENDPOINT"
-      value = data.kubernetes_service.ingress_nginx.status.0.load_balancer.0.ingress.0.hostname
+      value = "jenkins-insecure.${var.dns_zone}" #data.kubernetes_service.ingress_nginx.status.0.load_balancer.0.ingress.0.hostname
     }
 
     environment_variable {
@@ -56,6 +56,11 @@ resource "aws_codebuild_project" "ocx_build_bootstrap" {
     environment_variable {
       name  = "EKS_NAME"
       value = aws_eks_cluster.eks.name
+    }
+
+    environment_variable {
+      name  = "JENKINS_API_TOKEN"
+      value = "CHANGE-ME"
     }
 
   }
