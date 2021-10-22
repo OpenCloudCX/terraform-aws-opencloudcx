@@ -298,6 +298,31 @@ resource "helm_release" "ingress-controller" {
   create_namespace = true
   reset_values     = false
 
+  set {
+    name  = "controller.ingressClassResource.name"
+    value = "insecure"
+  }
+
+  depends_on = [
+    aws_eks_cluster.eks,
+    aws_eks_node_group.ng,
+  ]
+}
+
+resource "helm_release" "ingress-controller-secure" {
+  name             = "ingress-nginx-secure"
+  chart            = "ingress-nginx"
+  namespace        = "ingress-nginx-secure"
+  repository       = var.ingress_controller
+  timeout          = var.helm_timeout
+  create_namespace = true
+  reset_values     = false
+
+  set {
+    name  = "controller.ingressClassResource.name"
+    value = "secure"
+  }
+
   depends_on = [
     aws_eks_cluster.eks,
     aws_eks_node_group.ng,
