@@ -1,3 +1,36 @@
+data "kubernetes_service" "ingress_nginx" {
+  metadata {
+    name      = "ingress-nginx-controller"
+    namespace = "ingress-nginx"
+  }
+
+  depends_on = [
+    helm_release.ingress-controller,
+  ]
+}
+
+data "kubernetes_service" "ingress_nginx_secure" {
+  metadata {
+    name      = "ingress-nginx-secure-controller"
+    namespace = "ingress-nginx-secure"
+  }
+
+  depends_on = [
+    helm_release.ingress-controller-secure,
+  ]
+}
+
+data "kubernetes_service" "keycloak_ingress" {
+  metadata {
+    name      = "keycloak"
+    namespace = "spinnaker"
+  }
+
+  depends_on = [
+    helm_release.keycloak,
+  ]
+}
+
 resource "kubernetes_ingress" "jenkins_ingress" {
 
   wait_for_load_balancer = true
@@ -28,6 +61,40 @@ resource "kubernetes_ingress" "jenkins_ingress" {
 
     tls {
       secret_name = "jenkins-tls-secret"
+    }
+  }
+
+  depends_on = [
+    helm_release.jenkins,
+    helm_release.ingress-controller,
+  ]
+}
+
+resource "kubernetes_ingress" "jenkins_ingress_insecure" {
+
+  wait_for_load_balancer = true
+
+  metadata {
+    name      = "jenkins-insecure"
+    namespace = "jenkins"
+    annotations = {
+      "kubernetes.io/ingress.class"    = "nginx"
+    }
+  }
+  spec {
+    rule {
+
+      host = "jenkins-insecure.${var.dns_zone}"
+
+      http {
+        path {
+          path = "/"
+          backend {
+            service_name = "jenkins"
+            service_port = 8080
+          }
+        }
+      }
     }
   }
 
