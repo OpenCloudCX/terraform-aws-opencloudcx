@@ -1,14 +1,3 @@
-data "kubernetes_service" "ingress_nginx" {
-  metadata {
-    name      = "ingress-nginx-controller"
-    namespace = "ingress-nginx"
-  }
-
-  depends_on = [
-    helm_release.ingress-controller,
-  ]
-}
-
 resource "aws_route53_record" "jenkins_cname" {
   zone_id = data.aws_route53_zone.vpc.zone_id
   name    = "jenkins.${var.dns_zone}"
@@ -22,12 +11,25 @@ resource "aws_route53_record" "jenkins_cname" {
   ]
 }
 
+resource "aws_route53_record" "jenkins_insecure_cname" {
+  zone_id = data.aws_route53_zone.vpc.zone_id
+  name    = "jenkins-insecure.${var.dns_zone}"
+  type    = "CNAME"
+  ttl     = "300"
+  records = [data.kubernetes_service.ingress_nginx_secure.status.0.load_balancer.0.ingress.0.hostname]
+
+  depends_on = [
+    helm_release.ingress-controller,
+    helm_release.jenkins,
+  ]
+}
+
 resource "aws_route53_record" "portainer_cname" {
   zone_id = data.aws_route53_zone.vpc.zone_id
   name    = "portainer.${var.dns_zone}"
   type    = "CNAME"
   ttl     = "300"
-  records = [data.kubernetes_service.ingress_nginx.status.0.load_balancer.0.ingress.0.hostname]
+  records = [data.kubernetes_service.ingress_nginx_secure.status.0.load_balancer.0.ingress.0.hostname]
 
   depends_on = [
     helm_release.ingress-controller,
@@ -40,7 +42,7 @@ resource "aws_route53_record" "spinnaker_cname" {
   name    = "spinnaker.${var.dns_zone}"
   type    = "CNAME"
   ttl     = "300"
-  records = [data.kubernetes_service.ingress_nginx.status.0.load_balancer.0.ingress.0.hostname]
+  records = [data.kubernetes_service.ingress_nginx_secure.status.0.load_balancer.0.ingress.0.hostname]
 
   depends_on = [
     helm_release.ingress-controller,
@@ -88,7 +90,7 @@ resource "aws_route53_record" "sonarqube_cname" {
 
 resource "aws_route53_record" "spinnaker_gate_cname" {
   zone_id = data.aws_route53_zone.vpc.zone_id
-  name    = "spinnaker_gate.${var.dns_zone}"
+  name    = "spinnaker-gate.${var.dns_zone}"
   type    = "CNAME"
   ttl     = "300"
   records = [data.kubernetes_service.ingress_nginx.status.0.load_balancer.0.ingress.0.hostname]
@@ -99,7 +101,7 @@ resource "aws_route53_record" "spinnaker_gate_cname" {
   ]
 }
 
-resource "aws_route53_record" "selenium_gate_cname" {
+resource "aws_route53_record" "selenium_cname" {
   zone_id = data.aws_route53_zone.vpc.zone_id
   name    = "selenium.${var.dns_zone}"
   type    = "CNAME"
@@ -109,6 +111,18 @@ resource "aws_route53_record" "selenium_gate_cname" {
   depends_on = [
     helm_release.ingress-controller,
     helm_release.selenium3_grid
+  ]
+}
+
+resource "aws_route53_record" "keycloak_cname" {
+  zone_id = data.aws_route53_zone.vpc.zone_id
+  name    = "keycloak.${var.dns_zone}"
+  type    = "CNAME"
+  ttl     = "300"
+  records = [data.kubernetes_service.keycloak_ingress.status.0.load_balancer.0.ingress.0.hostname]
+
+  depends_on = [
+    helm_release.keycloak
   ]
 }
 
