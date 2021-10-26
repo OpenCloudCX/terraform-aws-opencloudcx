@@ -31,6 +31,17 @@ data "kubernetes_service" "keycloak_ingress" {
   ]
 }
 
+data "kubernetes_service" "k8s_dashboard_ingress" {
+  metadata {
+    name      = "k8s-dashboard-kubernetes-dashboard"
+    namespace = "dashboard"
+  }
+
+  depends_on = [
+    helm_release.k8s_dashboard,
+  ]
+}
+
 resource "kubernetes_ingress" "jenkins_ingress" {
 
   wait_for_load_balancer = true
@@ -342,6 +353,46 @@ resource "kubernetes_ingress" "portainer_ingress" {
   ]
 }
 
+resource "kubernetes_ingress" "k8s_dashboard_ingress" {
+
+  wait_for_load_balancer = true
+
+  metadata {
+    name      = "dashboard"
+    namespace = "dashboard"
+
+    annotations = {
+      "kubernetes.io/ingress.class"    = "nginx"
+      "cert-manager.io/cluster-issuer" = "cert-manager"
+    }
+  }
+  spec {
+    rule {
+
+      host = "dashboard.${var.dns_zone}"
+
+      http {
+        path {
+          path = "/"
+          backend {
+            service_name = "k8s-dashboard-kubernetes-dashboard"
+            service_port = 80
+          }
+        }
+      }
+    }
+
+    tls {
+      secret_name = "k8s-dashboard-tls-secret"
+    }
+  }
+
+  depends_on = [
+    helm_release.k8s_dashboard,
+    helm_release.ingress-controller,
+  ]
+}
+
 resource "kubernetes_ingress" "spinnaker_gate__ingress" {
 
   wait_for_load_balancer = true
@@ -421,44 +472,4 @@ resource "kubernetes_ingress" "selenium3__ingress" {
     helm_release.ingress-controller,
   ]
 }
-
-# resource "kubernetes_ingress" "keycloak__ingress" {
-
-#   wait_for_load_balancer = true
-
-#   metadata {
-#     name      = "keycloak"
-#     namespace = "spinnaker"
-
-#     annotations = {
-#       "kubernetes.io/ingress.class" = "nginx"
-#       "cert-manager.io/cluster-issuer" = "cert-manager"
-#     }
-#   }
-#   spec {
-#     rule {
-
-#       host = "keycloak.${var.dns_zone}"
-
-#       http {
-#         path {
-#           path = "/"
-#           backend {
-#             service_name = "keycloak"
-#             service_port = 80
-#           }
-#         }
-#       }
-#     }
-
-#     tls {
-#       secret_name = "keycloak-tls-secret"
-#     }
-#   }
-
-#   depends_on = [
-#     helm_release.keycloak,
-#     helm_release.ingress-controller,
-#   ]
-# }
 

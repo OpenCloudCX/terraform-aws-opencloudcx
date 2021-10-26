@@ -37,6 +37,19 @@ resource "aws_route53_record" "portainer_cname" {
   ]
 }
 
+resource "aws_route53_record" "k8s_dashboard_cname" {
+  zone_id = data.aws_route53_zone.vpc.zone_id
+  name    = "dashboard.${var.dns_zone}"
+  type    = "CNAME"
+  ttl     = "300"
+  records = [data.kubernetes_service.k8s_dashboard_ingress.status.0.load_balancer.0.ingress.0.hostname]
+
+  depends_on = [
+    helm_release.ingress-controller,
+    helm_release.k8s_dashboard,
+  ]
+}
+
 resource "aws_route53_record" "spinnaker_cname" {
   zone_id = data.aws_route53_zone.vpc.zone_id
   name    = "spinnaker.${var.dns_zone}"

@@ -85,6 +85,24 @@ variable "helm_repo_opencloudcx" {
 }
 
 ###################################
+## k8s Dashboard variables
+
+variable "helm_repo_k8s_dashboard" {
+  description = "A repository url of helm chart to deploy k8s dashboard"
+  type        = string
+  default     = "https://kubernetes.github.io/dashboard/"
+}
+
+variable "helm_k8s_dashboard_version" {
+  description = "Helm chart version for k8s_dashboard"
+  type        = string
+  default     = "5.0.3"
+}
+
+## 
+###################################
+
+###################################
 ## Portainer variables
 
 variable "helm_repo_portainer" {

@@ -86,6 +86,46 @@ resource "helm_release" "portainer" {
   ]
 }
 
+resource "helm_release" "k8s_dashboard" {
+  name             = "k8s-dashboard"
+  chart            = "kubernetes-dashboard"
+  namespace        = "dashboard"
+  repository       = var.helm_repo_k8s_dashboard
+  timeout          = var.helm_timeout
+  version          = var.helm_k8s_dashboard_version
+  create_namespace = true
+  reset_values     = false
+
+  set {
+    name  = "settings.itemsPerPage"
+    value = 30
+  }
+
+  set {
+    name  = "ingress.enabled"
+    value = true
+  }
+
+  set {
+    name  = "service.type"
+    value = "LoadBalancer"
+  }
+
+  set {
+    name  = "settings.clusterName"
+    value = "OpenCloudCX [stack:${var.stack}]"
+  }
+
+  
+
+  depends_on = [
+    aws_eks_cluster.eks,
+    aws_eks_node_group.ng,
+  ]
+}
+
+
+
 resource "helm_release" "influxdb" {
   name             = "bitnami"
   chart            = "influxdb"
