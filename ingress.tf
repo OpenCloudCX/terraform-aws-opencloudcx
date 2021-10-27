@@ -473,3 +473,43 @@ resource "kubernetes_ingress" "selenium3__ingress" {
   ]
 }
 
+resource "kubernetes_ingress" "code_server__ingress" {
+
+  wait_for_load_balancer = true
+
+  metadata {
+    name      = "code-server"
+    namespace = "develop"
+
+    annotations = {
+      "kubernetes.io/ingress.class"    = "nginx"
+      "cert-manager.io/cluster-issuer" = "cert-manager"
+    }
+  }
+  spec {
+    rule {
+
+      host = "code-server.${var.dns_zone}"
+
+      http {
+        path {
+          path = "/"
+          backend {
+            service_name = "code-server"
+            service_port = 80
+          }
+        }
+      }
+    }
+
+    tls {
+      secret_name = "code-server-tls-secret"
+    }
+  }
+
+  depends_on = [
+    helm_release.code_server,
+    helm_release.ingress-controller,
+  ]
+}
+

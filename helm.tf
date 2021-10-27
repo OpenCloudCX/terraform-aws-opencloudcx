@@ -86,6 +86,37 @@ resource "helm_release" "portainer" {
   ]
 }
 
+resource "helm_release" "code_server" {
+  name             = "code-server"
+  chart            = "code-server"
+  namespace        = "develop"
+  repository       = var.helm_repo_code_server
+  timeout          = var.helm_timeout
+  version          = var.helm_code_server_version
+  create_namespace = true
+  reset_values     = false
+
+  set {
+    name  = "image.tag"
+    value = "3.9.3-r1-alpine"
+  }
+
+  set {
+    name  = "service.type"
+    value = "ClusterIP"
+  }
+
+  set {
+    name  = "app.env.PASSWORD"
+    value = var.code_server_secret
+  }
+
+  depends_on = [
+    aws_eks_cluster.eks,
+    aws_eks_node_group.ng,
+  ]
+}
+
 resource "helm_release" "k8s_dashboard" {
   name             = "k8s-dashboard"
   chart            = "kubernetes-dashboard"
@@ -123,8 +154,6 @@ resource "helm_release" "k8s_dashboard" {
     aws_eks_node_group.ng,
   ]
 }
-
-
 
 resource "helm_release" "influxdb" {
   name             = "bitnami"
