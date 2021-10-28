@@ -308,7 +308,7 @@ resource "helm_release" "jenkins" {
 
   set {
     name  = "controller.installPlugins[13]"
-    value = "configuration-as-code:1.52"
+    value = "configuration-as-code:1.54"
   }
 
   set {
