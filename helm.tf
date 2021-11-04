@@ -10,6 +10,21 @@ resource "helm_release" "spinnaker" {
   reset_values     = false
 
   set {
+    name  = "halyard.additionalScripts.enabled"
+    value = "true"
+  }
+
+  set {
+    name  = "halyard.additionalScripts.configMapName"
+    value = "jenkins-setup-script"
+  }
+
+  set {
+    name  = "halyard.additionalScripts.configMapKey"
+    value = "get-token.sh"
+  }
+
+  set {
     name  = "halyard.spinnakerVersion"
     value = "1.19.12"
   }
@@ -42,6 +57,8 @@ resource "helm_release" "spinnaker" {
   depends_on = [
     aws_eks_cluster.eks,
     aws_eks_node_group.ng,
+    kubernetes_config_map.jenkins_config,
+    kubernetes_namespace.spinnaker,
   ]
 }
 
@@ -482,6 +499,7 @@ resource "helm_release" "keycloak" {
   depends_on = [
     aws_eks_cluster.eks,
     aws_eks_node_group.ng,
+    kubernetes_namespace.spinnaker,
   ]
 }
 
