@@ -275,25 +275,9 @@ variable "kubectl_version" {
   default = "1.22.1"
 }
 
-# variable "dockerhub_secret_name" {
-#   type = string
-# }
-
-# variable "dockerhub_username" {
-#   type = string
-# }
-
-# variable "dockerhub_secret" {
-#   type = string
-# }
-
 variable "dockerhub_url" {
   type    = string
   default = "https://index.docker.io/v1/"
-}
-
-variable "github_access_token" {
-  type = string
 }
 
 ### aws credential

@@ -94,32 +94,3 @@ resource "kubernetes_role_binding" "jenkins_service_rolebinding" {
 
 ##
 ###############################################
-
-
-
-
-# resource "kubernetes_secret" "dockerhub_secret" {
-#   metadata {
-#     name      = var.dockerhub_secret_name
-#     namespace = "jenkins"
-#   }
-
-#   data = {
-#     ".dockerconfigjson" = <<DOCKER
-# {
-#   "auths": {
-#     "https://index.docker.io/v1/" : {
-#       "auth": "${base64encode("${var.dockerhub_username}:${var.dockerhub_secret}")}"
-#     }
-#   }
-# }
-# DOCKER
-#   }
-
-#   type = "kubernetes.io/dockerconfigjson"
-
-#   depends_on = [
-#     helm_release.ingress-controller,
-#   ]
-# }
-
