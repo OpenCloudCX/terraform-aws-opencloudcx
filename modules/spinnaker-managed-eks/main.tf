@@ -253,14 +253,6 @@ resource "kubernetes_config_map" "aws-auth" {
         rolearn  = element(compact(aws_iam_role.ng.*.arn), 0)
         username = "system:node:{{EC2PrivateDNSName}}"
         groups   = ["system:bootstrappers", "system:nodes"]
-      },{
-        rolearn  = element(compact(aws_iam_role.codebuild_kubectl_role.*.arn), 0)
-        username = "build"
-        groups   = ["system:masters"]
-      },{
-        rolearn  = element(compact(aws_iam_role.organizational_account_access_role.ng.*.arn), 0)
-        username = "build"
-        groups   = ["system:masters"]
       }],
     )
   }
