@@ -6,7 +6,7 @@ resource "helm_release" "spinnaker" {
   timeout    = var.helm_timeout
   version    = var.helm_chart_version
   # values           = var.helm_chart_values
-  create_namespace = true
+  create_namespace = false
   reset_values     = false
 
   set {
@@ -473,7 +473,7 @@ resource "helm_release" "keycloak" {
   repository       = var.helm_keycloak
   timeout          = var.helm_timeout
   version          = var.helm_keycloak_version
-  create_namespace = true
+  create_namespace = false
   reset_values     = false
 
   set {
