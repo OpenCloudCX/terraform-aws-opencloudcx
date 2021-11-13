@@ -62,19 +62,72 @@ resource "helm_release" "spinnaker" {
   ]
 }
 
-resource "helm_release" "opencloudcx" {
-  name             = "opencloudcx"
-  chart            = "opencloudcx"
+resource "helm_release" "grafana" {
+  name             = "grafana"
+  chart            = "grafana"
   namespace        = "opencloudcx"
-  repository       = var.helm_repo_opencloudcx
+  repository       = var.helm_repo_grafana
   timeout          = var.helm_timeout
-  create_namespace = true
+  version          = var.helm_repo_grafana_version
+  create_namespace = false
   reset_values     = false
 
   depends_on = [
     aws_eks_cluster.eks,
     aws_eks_node_group.ng,
+    kubernetes_secret.grafana_secret,
+    kubernetes_namespace.opencloudcx,
   ]
+
+  set {
+    name  = "service.type"
+    value = "ClusterIP"
+  }
+
+  set {
+    name  = "admin.existingSecret"
+    value = "grafana-admin"
+  }
+  
+  set {
+    name  = "admin.userKey"
+    value = "username"
+  }
+  
+  set {
+    name  = "admin.passwordKey"
+    value = "password"
+  }
+
+  set {
+    name  = "plugins[0]"
+    value = "grafana-piechart-panel"
+  }
+  
+  set {
+    name  = "plugins[1]"
+    value = "grafana-worldmap-panel"
+  }
+  
+  set {
+    name  = "plugins[2]"
+    value = "grafana-clock-panel"
+  }
+  
+  set {
+    name  = "plugins[3]"
+    value = "grafana-simple-json-datasource"
+  }
+  
+  set {
+    name  = "plugins[4]"
+    value = "grafana-googlesheets-datasource"
+  }
+  
+  set {
+    name  = "plugins[5]"
+    value = "marcusolsson-csv-datasource"
+  }
 }
 
 resource "helm_release" "portainer" {
@@ -178,7 +231,7 @@ resource "helm_release" "influxdb" {
   namespace        = "opencloudcx"
   repository       = var.helm_repo_influxdb
   timeout          = var.helm_timeout
-  create_namespace = true
+  create_namespace = false
   reset_values     = false
 
 
@@ -210,6 +263,7 @@ resource "helm_release" "influxdb" {
   depends_on = [
     aws_eks_cluster.eks,
     aws_eks_node_group.ng,
+    kubernetes_namespace.opencloudcx,
   ]
 }
 
