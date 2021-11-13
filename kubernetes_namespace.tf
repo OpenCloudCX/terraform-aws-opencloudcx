@@ -19,3 +19,14 @@ resource "kubernetes_namespace" "opencloudcx" {
     aws_eks_node_group.ng
   ]
 }
+
+resource "kubernetes_namespace" "develop" {
+  metadata {
+    name = "develop"
+  }
+
+  depends_on = [ 
+    aws_eks_cluster.eks,
+    aws_eks_node_group.ng
+  ]
+}

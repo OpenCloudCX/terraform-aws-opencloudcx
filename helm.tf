@@ -163,7 +163,7 @@ resource "helm_release" "code_server" {
   repository       = var.helm_repo_code_server
   timeout          = var.helm_timeout
   version          = var.helm_code_server_version
-  create_namespace = true
+  create_namespace = false
   reset_values     = false
 
   set {
