@@ -78,10 +78,16 @@ variable "helm_repo" {
   default     = "https://opencloudcx.github.io/spinnaker-helm"
 }
 
-variable "helm_repo_opencloudcx" {
-  description = "A repository url of helm chart to deploy a opencloudcx"
+variable "helm_repo_grafana" {
+  description = "A repository url of helm chart to deploy grafana"
   type        = string
-  default     = "https://opencloudcx.github.io/grafana-helm"
+  default     = "https://grafana.github.io/helm-charts"
+}
+
+variable "helm_repo_grafana_version" {
+  description = "Version of grafana helm chart to deploy"
+  type        = string
+  default     = "6.17.5"
 }
 
 ###################################
@@ -303,3 +309,6 @@ variable "code_server_secret" {
   type = string
 }
 
+variable "grafana_secret" {
+  type = string
+}
