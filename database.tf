@@ -19,7 +19,7 @@ resource "aws_security_group" "db" {
   name        = format("%s-db", local.name)
   description = format("security group for %s-db", local.name)
   vpc_id      = aws_vpc.vpc.id
-  tags        = merge(map("Name", format("%s-db", local.name)), var.tags)
+  tags       = merge(local.db-name-tag, var.tags)
 }
 
 resource "aws_security_group_rule" "db-ingress-rules" {
@@ -37,7 +37,7 @@ resource "aws_db_subnet_group" "db" {
   count      = local.cluster_count
   name       = format("%s-db", local.name)
   subnet_ids = aws_subnet.private.*.id
-  tags       = merge(map("Name", format("%s-db", local.name)), var.tags)
+  tags       = merge(local.db-name-tag, var.tags)
 }
 
 # parameter groups
@@ -96,7 +96,7 @@ resource "aws_rds_cluster" "db" {
   db_subnet_group_name            = aws_db_subnet_group.db[0].name
   db_cluster_parameter_group_name = aws_rds_cluster_parameter_group.db[0].name
   vpc_security_group_ids          = coalescelist(aws_security_group.db.*.id, [])
-  tags                            = merge(map("Name", format("%s-db", local.name)), var.tags)
+  tags                            = merge(local.db-name-tag, var.tags)
 
   lifecycle {
     ignore_changes        = [snapshot_identifier, master_password]

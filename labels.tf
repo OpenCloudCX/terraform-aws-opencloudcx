@@ -21,6 +21,7 @@ locals {
 # tags
 locals {
   name-tag               = { "Name" = local.name }
+  db-name-tag            = { "Name" = join("-", compact([local.name, "db"])) } 
   vpc-name-tag           = { "Name" = join("-", compact([local.name, "vpc"])) }
   igw-name-tag           = { "Name" = join("-", compact([local.name, "igw"])) }
   ngw-name-tag           = { "Name" = join("-", compact([local.name, "ngw"])) }
