@@ -5,7 +5,6 @@ resource "helm_release" "spinnaker" {
   repository = var.helm_repo
   timeout    = var.helm_timeout
   version    = var.helm_chart_version
-  # values           = var.helm_chart_values
   create_namespace = false
   reset_values     = false
 
@@ -59,6 +58,7 @@ resource "helm_release" "spinnaker" {
     aws_eks_node_group.ng,
     kubernetes_config_map.jenkins_config,
     kubernetes_namespace.spinnaker,
+    helm_release.ingress-controller-secure,
   ]
 }
 
@@ -77,6 +77,7 @@ resource "helm_release" "grafana" {
     aws_eks_node_group.ng,
     kubernetes_secret.grafana_secret,
     kubernetes_namespace.opencloudcx,
+    helm_release.ingress-controller-secure,
   ]
 
   set {
@@ -153,6 +154,7 @@ resource "helm_release" "portainer" {
   depends_on = [
     aws_eks_cluster.eks,
     aws_eks_node_group.ng,
+    helm_release.ingress-controller-secure,
   ]
 }
 
@@ -184,6 +186,7 @@ resource "helm_release" "code_server" {
   depends_on = [
     aws_eks_cluster.eks,
     aws_eks_node_group.ng,
+    helm_release.ingress-controller-secure,
   ]
 }
 
@@ -222,6 +225,7 @@ resource "helm_release" "k8s_dashboard" {
   depends_on = [
     aws_eks_cluster.eks,
     aws_eks_node_group.ng,
+    helm_release.ingress-controller-secure,
   ]
 }
 
@@ -264,6 +268,7 @@ resource "helm_release" "influxdb" {
     aws_eks_cluster.eks,
     aws_eks_node_group.ng,
     kubernetes_namespace.opencloudcx,
+    helm_release.ingress-controller-secure,
   ]
 }
 
@@ -390,6 +395,8 @@ resource "helm_release" "jenkins" {
   depends_on = [
     aws_eks_cluster.eks,
     aws_eks_node_group.ng,
+    helm_release.ingress-controller,
+    helm_release.ingress-controller-secure,
   ]
 }
 
@@ -411,6 +418,7 @@ resource "helm_release" "sonarqube" {
   depends_on = [
     aws_eks_cluster.eks,
     aws_eks_node_group.ng,
+    helm_release.ingress-controller-secure,
   ]
 }
 
@@ -426,6 +434,7 @@ resource "helm_release" "anchore" {
   depends_on = [
     aws_eks_cluster.eks,
     aws_eks_node_group.ng,
+    helm_release.ingress-controller-secure,
   ]
 }
 
@@ -486,6 +495,7 @@ resource "helm_release" "cert-manager" {
   depends_on = [
     aws_eks_cluster.eks,
     aws_eks_node_group.ng,
+    helm_release.ingress-controller-secure,
   ]
 }
 
@@ -517,6 +527,7 @@ resource "helm_release" "selenium3_grid" {
   depends_on = [
     aws_eks_cluster.eks,
     aws_eks_node_group.ng,
+    helm_release.ingress-controller-secure,
   ]
 }
 
@@ -554,6 +565,7 @@ resource "helm_release" "keycloak" {
     aws_eks_cluster.eks,
     aws_eks_node_group.ng,
     kubernetes_namespace.spinnaker,
+    helm_release.ingress-controller-secure,
   ]
 }
 
