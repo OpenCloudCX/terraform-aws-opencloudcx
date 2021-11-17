@@ -139,15 +139,15 @@ resource "aws_route53_record" "keycloak_cname" {
   ]
 }
 
-resource "aws_route53_record" "code_server_cname" {
-  zone_id = data.aws_route53_zone.vpc.zone_id
-  name    = "code-server.${var.dns_zone}"
-  type    = "CNAME"
-  ttl     = "300"
-  records = [data.kubernetes_service.ingress_nginx.status.0.load_balancer.0.ingress.0.hostname]
+# resource "aws_route53_record" "code_server_cname" {
+#   zone_id = data.aws_route53_zone.vpc.zone_id
+#   name    = "code-server.${var.dns_zone}"
+#   type    = "CNAME"
+#   ttl     = "300"
+#   records = [data.kubernetes_service.ingress_nginx.status.0.load_balancer.0.ingress.0.hostname]
 
-  depends_on = [
-    helm_release.code_server
-  ]
-}
+#   depends_on = [
+#     helm_release.code_server
+#   ]
+# }
 

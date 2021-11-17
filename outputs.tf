@@ -5,6 +5,14 @@ output "name" {
   description = "The name of eks cluster to run spinnaker pods"
 }
 
+output "eks_token" {
+  value = data.aws_eks_cluster_auth.eks.token
+}
+
+output "eks_ca_auth" {
+  value = aws_eks_cluster.eks.certificate_authority.0.data
+}
+
 output "endpoint" {
   value       = aws_eks_cluster.eks.endpoint
   description = "The endpoint of eks cluster"

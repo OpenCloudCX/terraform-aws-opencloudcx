@@ -90,23 +90,23 @@ variable "helm_repo_grafana_version" {
   default     = "6.17.5"
 }
 
-###################################
-## Code server helm variables
+# ###################################
+# ## Code server helm variables
 
-variable "helm_repo_code_server" {
-  description = "A repository url of helm chart to deploy code server"
-  type        = string
-  default     = "https://helm.kodelib.com"
-}
+# variable "helm_repo_code_server" {
+#   description = "A repository url of helm chart to deploy code server"
+#   type        = string
+#   default     = "https://helm.kodelib.com"
+# }
 
-variable "helm_code_server_version" {
-  description = "Helm chart version for code server"
-  type        = string
-  default     = "0.3.11"
-}
+# variable "helm_code_server_version" {
+#   description = "Helm chart version for code server"
+#   type        = string
+#   default     = "0.3.11"
+# }
 
-## 
-###################################
+# ## 
+# ###################################
 
 ###################################
 ## k8s Dashboard variables
@@ -305,9 +305,9 @@ variable "keycloak_user_secret" {
   type = string
 }
 
-variable "code_server_secret" {
-  type = string
-}
+# variable "code_server_secret" {
+#   type = string
+# }
 
 variable "grafana_secret" {
   type = string

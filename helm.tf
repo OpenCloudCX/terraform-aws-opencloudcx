@@ -158,37 +158,37 @@ resource "helm_release" "portainer" {
   ]
 }
 
-resource "helm_release" "code_server" {
-  name             = "code-server"
-  chart            = "code-server"
-  namespace        = "develop"
-  repository       = var.helm_repo_code_server
-  timeout          = var.helm_timeout
-  version          = var.helm_code_server_version
-  create_namespace = false
-  reset_values     = false
+# resource "helm_release" "code_server" {
+#   name             = "code-server"
+#   chart            = "code-server"
+#   namespace        = "develop"
+#   repository       = var.helm_repo_code_server
+#   timeout          = var.helm_timeout
+#   version          = var.helm_code_server_version
+#   create_namespace = false
+#   reset_values     = false
 
-  set {
-    name  = "image.tag"
-    value = "3.9.3-r1-alpine"
-  }
+#   set {
+#     name  = "image.tag"
+#     value = "3.9.3-r1-alpine"
+#   }
 
-  set {
-    name  = "service.type"
-    value = "ClusterIP"
-  }
+#   set {
+#     name  = "service.type"
+#     value = "ClusterIP"
+#   }
 
-  set {
-    name  = "app.env.PASSWORD"
-    value = var.code_server_secret
-  }
+#   set {
+#     name  = "app.env.PASSWORD"
+#     value = var.code_server_secret
+#   }
 
-  depends_on = [
-    aws_eks_cluster.eks,
-    aws_eks_node_group.ng,
-    helm_release.ingress-controller-secure,
-  ]
-}
+#   depends_on = [
+#     aws_eks_cluster.eks,
+#     aws_eks_node_group.ng,
+#     helm_release.ingress-controller-secure,
+#   ]
+# }
 
 resource "helm_release" "k8s_dashboard" {
   name             = "k8s-dashboard"

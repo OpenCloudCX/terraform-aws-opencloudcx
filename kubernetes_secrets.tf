@@ -18,14 +18,34 @@ resource "kubernetes_secret" "grafana_secret" {
   ]
 }
 
-resource "kubernetes_secret" "codeserver_secret" {
+# resource "kubernetes_secret" "codeserver_secret" {
+#   metadata {
+#     name      = "codeserver-password"
+#     namespace = "develop"
+#   }
+
+#     data = {
+#       password = var.code_server_secret
+#     }
+
+#   type = "kubernetes.io/basic-auth"
+
+#   depends_on = [
+#     aws_eks_cluster.eks,
+#     aws_eks_node_group.ng,
+#     kubernetes_namespace.develop,
+#   ]
+# }
+
+resource "kubernetes_secret" "keycloak_secret" {
   metadata {
-    name      = "codeserver-password"
-    namespace = "develop"
+    name      = "keycloak-password"
+    namespace = "spinnaker"
   }
 
     data = {
-      password = var.code_server_secret
+      username = "user"
+      password = var.keycloak_admin_secret
     }
 
   type = "kubernetes.io/basic-auth"
@@ -33,6 +53,6 @@ resource "kubernetes_secret" "codeserver_secret" {
   depends_on = [
     aws_eks_cluster.eks,
     aws_eks_node_group.ng,
-    kubernetes_namespace.develop,
+    kubernetes_namespace.spinnaker,
   ]
 }
